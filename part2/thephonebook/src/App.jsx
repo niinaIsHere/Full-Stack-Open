@@ -40,11 +40,23 @@ const Persons = ({ props, removePerson }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message == null) {
+    return null
+  }
+  return (
+    <div className='notification'>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [query, setQuery] = useState('')
+  const [message, setMessage] = useState(null)
 
   const hook = () => {
     personService
@@ -82,7 +94,10 @@ const App = () => {
         }
         personService
         .update(person.id, personObject)
-        .then(updatedPerson => {setPersons(persons.map(p => p.id !== person.id ? p : updatedPerson))})
+        .then(updatedPerson => {
+          setPersons(persons.map(p => p.id !== person.id ? p : updatedPerson))
+          notify('Updated ' + person.name)
+        })
       }
     }
 
@@ -98,6 +113,7 @@ const App = () => {
         setPersons(persons.concat(newPerson))
         setNewName('')
         setNewNumber('')
+        notify('Added ' + newName)
       })
   }}
 
@@ -111,6 +127,14 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const notify = (message) => {
+  setMessage(message)
+
+  setTimeout(() => {
+    setMessage(null)
+    }, 5000)
+  }
+
   const searchPhonebook = (query) => persons.filter(person => Object.values(person).some(val => val.toLowerCase().includes(query.toLowerCase()))) 
 
   const nameExists = (props) => persons.some(person => person.name === props)
@@ -122,6 +146,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       <Filter value={query} onChange={(event) => setQuery(event.target.value)}/>
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson} name={newName} number={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
