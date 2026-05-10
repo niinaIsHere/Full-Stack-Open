@@ -45,8 +45,8 @@ const Notification = ({ message }) => {
     return null
   }
   return (
-    <div className='notification'>
-      {message}
+    <div className={`notification ${message.type}`}>
+      {message.text}
     </div>
   )
 }
@@ -96,7 +96,10 @@ const App = () => {
         .update(person.id, personObject)
         .then(updatedPerson => {
           setPersons(persons.map(p => p.id !== person.id ? p : updatedPerson))
-          notify('Updated ' + person.name)
+          notify('Updated ' + person.name, 'success')
+        })
+        .catch(error => {
+          notify('Information of ' + person.name + ' has already been removed from server', 'fail')
         })
       }
     }
@@ -113,7 +116,7 @@ const App = () => {
         setPersons(persons.concat(newPerson))
         setNewName('')
         setNewNumber('')
-        notify('Added ' + newName)
+        notify('Added ' + newName, 'success')
       })
   }}
 
@@ -127,12 +130,12 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const notify = (message) => {
-  setMessage(message)
+  const notify = (text, type) => {
+    setMessage({ text, type })
 
-  setTimeout(() => {
-    setMessage(null)
-    }, 5000)
+    setTimeout(() => {
+      setMessage(null)
+      }, 5000)
   }
 
   const searchPhonebook = (query) => persons.filter(person => Object.values(person).some(val => val.toLowerCase().includes(query.toLowerCase()))) 

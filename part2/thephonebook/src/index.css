@@ -1,4 +1,4 @@
-.notification {
+.notification.success {
   color: green;
   background: lightgreen;
   font-size: 20px;
@@ -7,3 +7,12 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+ .notification.fail {
+  color: red;
+  background: lightcoral;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+ }

@@ -11,9 +11,9 @@
       "id": "4"
     },
     {
-      "name": "newperson",
-      "number": "11",
-      "id": "WRl0-OBeZFg"
+      "name": "hi",
+      "number": "44",
+      "id": "04u1532yxWk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
