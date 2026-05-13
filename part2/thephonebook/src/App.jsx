@@ -69,7 +69,6 @@ const App = () => {
   useEffect(hook, [])
 
   const removePerson = (id) => {
-    const url = `http://localhost:3001/notes/${id}`
     const person = persons.find(n => n.id == id)
     const newpersons = persons.filter(n => n.id !== id)
 
@@ -117,6 +116,9 @@ const App = () => {
         setNewName('')
         setNewNumber('')
         notify('Added ' + newName, 'success')
+      })
+      .catch(error => {
+        notify(error.response.data.error, 'fail')
       })
   }}
 
