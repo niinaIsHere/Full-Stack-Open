@@ -98,7 +98,7 @@ const App = () => {
           notify('Updated ' + person.name, 'success')
         })
         .catch(error => {
-          notify('Information of ' + person.name + ' has already been removed from server', 'fail')
+          console.log(error.response.data.error)
         })
       }
     }

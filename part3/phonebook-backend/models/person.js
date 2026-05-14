@@ -14,8 +14,20 @@ mongoose.connect(url, { family: 4 })
   })
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true
+    },
+  number: {
+    type: String,
+    minLength: 8,
+    validate: {
+      validator: function(n) {
+        return /\d{2,3}-\d{1,}$/.test(n)
+      },
+    }
+  }
 })
 
 const Person = mongoose.model('Person', personSchema)

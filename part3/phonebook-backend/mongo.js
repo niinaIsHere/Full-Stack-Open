@@ -13,13 +13,6 @@ mongoose.set('strictQuery',false)
 
 mongoose.connect(url, { family: 4 })
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-})
-
-const Person = mongoose.model('Person', personSchema)
-
 const addPerson = (name, number) => {
 
     const person = new Person({
