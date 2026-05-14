@@ -6,7 +6,7 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to' + url)
 mongoose.connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -18,7 +18,7 @@ const personSchema = new mongoose.Schema({
     type: String,
     minLength: 3,
     required: true
-    },
+  },
   number: {
     type: String,
     minLength: 8,
@@ -30,7 +30,6 @@ const personSchema = new mongoose.Schema({
   }
 })
 
-const Person = mongoose.model('Person', personSchema)
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {

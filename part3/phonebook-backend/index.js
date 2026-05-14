@@ -8,7 +8,7 @@ const app = express()
 app.use(express.static('dist'))
 app.use(express.json())
 
-morgan.token('content', function (req, res) { return JSON.stringify(req.body) })
+morgan.token('content', function (req) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 
 const errorHandler = (error, request, response, next) => {
@@ -17,7 +17,7 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
-  else if (error.name == 'ValidationError') {
+  else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
 
@@ -25,26 +25,26 @@ const errorHandler = (error, request, response, next) => {
 }
 
 let persons = [
-    { 
-      "id": "1",
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": "2",
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": "3",
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
+  {
+    'id': '1',
+    'name': 'Arto Hellas',
+    'number': '040-123456'
+  },
+  {
+    'id': '2',
+    'name': 'Ada Lovelace',
+    'number': '39-44-5323523'
+  },
+  {
+    'id': '3',
+    'name': 'Dan Abramov',
+    'number': '12-43-234345'
+  },
+  {
+    'id': '4',
+    'name': 'Mary Poppendieck',
+    'number': '39-23-6423122'
+  }
 ]
 
 app.get('/', (request, response) => {
@@ -73,46 +73,46 @@ app.get('/api/persons/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-  .then(result => {
-    response.status(204).end()
-  })
-  .catch(error => next(error))
+    .then(() => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
-    const body = request.body
+  const body = request.body
 
-    if (!body.name) {
-        return response.status(400).json({
-        error: 'name missing' 
-        })
-    }
-
-    if (!body.number) {
-        return response.status(400).json({
-        error: 'number missing' 
-        })
-    }
-
-    if (namePresent(body.name)) {
-        return response.status(409).json({
-            error: 'name already in the phoneboook'
-        })
-    }
-
-    const person = new Person({
-        name: body.name,
-        number: body.number
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'name missing'
     })
+  }
 
-    person.save().then(savedPerson => {
-      response.json(savedPerson)
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'number missing'
     })
+  }
+
+  if (namePresent(body.name)) {
+    return response.status(409).json({
+      error: 'name already in the phoneboook'
+    })
+  }
+
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
+
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
     .catch(error => next(error))
 })
 
@@ -143,7 +143,7 @@ app.use(unknownEndpoint)
 app.use(errorHandler)
 
 
-const namePresent = (name) => persons.some(person => person.name == name)
+const namePresent = (name) => persons.some(person => person.name === name)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
