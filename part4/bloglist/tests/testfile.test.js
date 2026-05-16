@@ -114,8 +114,71 @@ describe('favorite blog', () => {
 
   const listWithNoBlogs = []
 
-    test('empty list returns none', () => {
+    test('empty list returns null', () => {
         const result = listHelper.favoriteBlog(listWithNoBlogs)
+        assert.deepStrictEqual(result, null)
+    })
+})
+
+describe('author with most blogs', () => {
+  const listWithThreeBlogs = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 5,
+      __v: 0
+    },
+    {
+      _id: '5a422aa71b54a676234d17f9',
+      title: 'Go To Statement Considered Good',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra69.pdf',
+      likes: 7,
+      __v: 0
+    },
+    {
+      _id: '5a422aa71b54a676234d17f9',
+      title: 'Go To Statement Considered Good',
+      author: 'Programmer Pro',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra69.pdf',
+      likes: 7,
+      __v: 0
+    }
+  ]
+
+    test('returns author with most blogs', () => {
+        const result = listHelper.mostBlogs(listWithThreeBlogs)
+        assert.deepStrictEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            blogs: 2
+        })
+    })
+
+  const listWithOneBlog = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 5,
+      __v: 0
+    },
+  ]
+
+    test('returns author of only blog', () => {
+        const result = listHelper.mostBlogs(listWithOneBlog)
+        assert.deepStrictEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            blogs: 1
+        })
+    })
+
+  const listWithNoBlogs = []
+
+    test('empty list returns null', () => {
+        const result = listHelper.mostBlogs(listWithNoBlogs)
         assert.deepStrictEqual(result, null)
     })
 })
