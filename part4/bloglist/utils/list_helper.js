@@ -29,8 +29,8 @@ const mostBlogs = (blogs) => {
         return null
     }
     const groupedBlogs = _.groupBy(blogs, 'author')
-    maxAmount = 0
-    maxAuthor = ""
+    let maxAmount = 0
+    let maxAuthor = ""
     for (const [author, blogs] of Object.entries(groupedBlogs)) {
         if (blogs.length > maxAmount) {
             maxAmount = blogs.length
@@ -43,9 +43,31 @@ const mostBlogs = (blogs) => {
     }
 }
 
+const mostLikes = (blogs) => {
+    if (blogs.length === 0) {
+        return null
+    }
+    const groupedBlogs = _.groupBy(blogs, 'author')
+    let maxLikesAuthor = ""
+    let maxLikes = 0
+    const initSum = 0
+    for (const [author, blogsByAuthor] of Object.entries(groupedBlogs)) {
+        const likes = blogsByAuthor.reduce((sum, blog) => sum + blog.likes, initSum)
+        if (likes > maxLikes) {
+            maxLikes = likes
+            maxLikesAuthor = author
+        }
+    }
+    return {
+        author: maxLikesAuthor,
+        likes: maxLikes
+    }
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }

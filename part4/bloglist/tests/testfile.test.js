@@ -182,3 +182,66 @@ describe('author with most blogs', () => {
         assert.deepStrictEqual(result, null)
     })
 })
+
+describe('author with most likes', () => {
+  const listWithThreeBlogs = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 5,
+      __v: 0
+    },
+    {
+      _id: '5a422aa71b54a676234d17f9',
+      title: 'Go To Statement Considered Good',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra69.pdf',
+      likes: 7,
+      __v: 0
+    },
+    {
+      _id: '5a422aa71b54a676234d17f9',
+      title: 'Go To Statement Considered Good',
+      author: 'Programmer Pro',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra69.pdf',
+      likes: 7,
+      __v: 0
+    }
+  ]
+
+    test('returns author with most likes', () => {
+        const result = listHelper.mostLikes(listWithThreeBlogs)
+        assert.deepStrictEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            likes: 12
+        })
+    })
+
+  const listWithOneBlog = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 5,
+      __v: 0
+    },
+  ]
+
+    test('returns author of only blog', () => {
+        const result = listHelper.mostLikes(listWithOneBlog)
+        assert.deepStrictEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            likes: 5
+        })
+    })
+
+  const listWithNoBlogs = []
+
+    test('empty list returns null', () => {
+        const result = listHelper.mostLikes(listWithNoBlogs)
+        assert.deepStrictEqual(result, null)
+    })
+})
