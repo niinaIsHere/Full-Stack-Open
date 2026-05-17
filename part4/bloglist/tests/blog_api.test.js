@@ -43,6 +43,22 @@ test('returned blogs include an id', async () => {
   assert(response.body[0].id)
 })
 
+test('posting a blog increases blog amount by one', async () => {
+  const amount = initialBlogs.length
+
+  const blog = {
+    title: 'new blog',
+    author: 'just someone',
+    url: 'blog.com',
+    likes: 10
+  }
+
+  const postedBlog = await api.post('/api/blogs').send(blog)
+  const allBlogs = await api.get('/api/blogs')
+
+  assert(allBlogs.body.length === amount + 1)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
