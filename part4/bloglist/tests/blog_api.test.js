@@ -59,6 +59,18 @@ test('posting a blog increases blog amount by one', async () => {
   assert(allBlogs.body.length === amount + 1)
 })
 
+test('missing likes property defaults to 0', async () => {
+  const blog = {
+    title: 'new blog',
+    author: 'just someone',
+    url: 'blog.com'
+  }
+
+  const postedBlog = await api.post('/api/blogs').send(blog)
+
+  assert(postedBlog.body.likes === 0)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
