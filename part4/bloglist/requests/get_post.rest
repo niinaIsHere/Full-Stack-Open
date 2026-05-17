@@ -7,6 +7,6 @@ Content-Type: application/json
 {
     "title": "nynny's blog",
     "author": "nynny",
-    "utl": "nynnypage.com",
+    "url": "nynnypage.com",
     "likes": 100
 }
