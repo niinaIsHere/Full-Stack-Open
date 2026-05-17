@@ -71,6 +71,31 @@ test('missing likes property defaults to 0', async () => {
   assert(postedBlog.body.likes === 0)
 })
 
+test('missing title property receives status error 400', async () => {
+  const blog = {
+    author: 'just someone',
+    url: 'blog.com',
+    likes: 10
+  }
+
+  const postedBlog = await api.post('/api/blogs').send(blog)
+
+  assert(postedBlog.status == 400)
+})
+
+test('missing url property receives status error 400', async () => {
+  const blog = {
+    title: 'new blog',
+    author: 'just someone',
+    likes: 10
+  }
+
+  const postedBlog = await api.post('/api/blogs').send(blog)
+
+  assert(postedBlog.status == 400)
+})
+
+
 after(async () => {
   await mongoose.connection.close()
 })
