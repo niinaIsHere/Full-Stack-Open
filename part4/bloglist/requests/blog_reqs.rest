@@ -1,0 +1,26 @@
+GET http://localhost:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "nynny's blog",
+    "author": "nynny",
+    "url": "nynnypage.com",
+    "likes": 10
+}
+
+###
+DELETE http://localhost:3003/api/blogs/6a0a20af303fac5993c4f54a
+
+###
+PUT http://localhost:3003/api/blogs/6a0ab77c220f4df80f3767dc
+Content-Type: application/json
+
+{
+    "title": "Important blog",
+    "author": "Me a writer",
+    "url": "moipage.com",
+    "likes": 10
+}

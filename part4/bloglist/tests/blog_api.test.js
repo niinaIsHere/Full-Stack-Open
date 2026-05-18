@@ -95,6 +95,82 @@ test('missing url property receives status error 400', async () => {
   assert(postedBlog.status == 400)
 })
 
+test('deleting an existing blog removes it from db', async () => {
+  const allBlogs = await api.get('/api/blogs')
+  const idToRemove = allBlogs.body[0].id
+
+  await api.delete(`/api/blogs/${idToRemove}`)
+
+  const currentBlogs = await api.get('/api/blogs')
+
+  ids = currentBlogs.body.map(b => b.id)
+  assert(!ids.includes(idToRemove))
+})
+
+test('deleting non-existing id returns 204', async () => {
+  const allBlogs = await api.get('/api/blogs')
+  const deleteId = '4a0abe3bf8e71208f1764f76'
+
+  const response = await api.delete(`/api/blogs/${deleteId}`)
+
+  assert(response.status == 204)
+})
+
+test('updating all blog contents works', async () => {
+  const allBlogs = await api.get('/api/blogs')
+  const idToUpdate = allBlogs.body[0].id
+  const blogToUpdate = await Blog.findById(idToUpdate)
+
+  const newAuthor = 'new author'
+  const newUrl = 'new url'
+  const newLikes = 1
+  
+  const newContents = {
+    title: blogToUpdate.title,
+    author: newAuthor,
+    url: newUrl,
+    likes: newLikes
+  }
+
+  const response = await api.put(`/api/blogs/${idToUpdate}`).send(newContents)
+
+  assert(response.body.author == newAuthor)
+  assert(response.body.url == newUrl)
+  assert(response.body.likes == newLikes)
+})
+
+test('updating only likes works', async () => {
+  const allBlogs = await api.get('/api/blogs')
+  const idToUpdate = allBlogs.body[0].id
+  const blogToUpdate = await Blog.findById(idToUpdate)
+
+  const newLikes = 100
+  
+  const newContents = {
+    likes: newLikes
+  }
+
+  const response = await api.put(`/api/blogs/${idToUpdate}`).send(newContents)
+  assert(response.body.title === blogToUpdate.title)
+  assert(response.body.author === blogToUpdate.author)
+  assert(response.body.url === blogToUpdate.url)
+  assert(response.body.likes == newLikes)
+})
+
+test('updating non-existing blog returns 404', async () => {
+  const allBlogs = await api.get('/api/blogs')
+  const idToUpdate = '4a0abe3bf8e71208f1764f76'
+
+  const newContents = {
+    title: 'Important blog',
+    author: 'author',
+    url: 'url',
+    likes: 'newlikes'
+  }
+  const response = await api.put(`/api/blogs/${idToUpdate}`).send(newContents).expect(404)
+
+  assert(response.status == 404)
+})
 
 after(async () => {
   await mongoose.connection.close()
