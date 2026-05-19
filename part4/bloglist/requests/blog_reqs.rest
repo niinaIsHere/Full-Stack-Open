@@ -5,11 +5,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "nynny's blog",
+    "title": "moi blog",
     "author": "nynny",
     "url": "nynnypage.com",
     "likes": 10
-}
+    }
 
 ###
 DELETE http://localhost:3003/api/blogs/6a0a20af303fac5993c4f54a
