@@ -6,14 +6,14 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pbsOkdXNlciIsImlkIjoiNmEwYzE1OWU3NzNlNDU4MTM2YWJkNjRhIiwiaWF0IjoxNzc5MjEyNDQxfQ.SJsHDiii92yEUOid9QkGoykOyUxxUrNDWfis0tljtSo
 
 {
-    "title": "morjess hellurei",
-    "author": "nynny",
+    "title": "to be deleted",
+    "author": "niina",
     "url": "nynnypage.com",
-    "likes": 10
+    "likes": 2
     }
 
 ###
-DELETE http://localhost:3003/api/blogs/6a0cbb028665fde729e13088
+DELETE http://localhost:3003/api/blogs/6a0cc464ae61d09d85eb72be
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pbsOkdXNlciIsImlkIjoiNmEwYzE1OWU3NzNlNDU4MTM2YWJkNjRhIiwiaWF0IjoxNzc5MjEyNDQxfQ.SJsHDiii92yEUOid9QkGoykOyUxxUrNDWfis0tljtSo
 
 ###
