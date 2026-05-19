@@ -6,7 +6,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pbsOkdXNlciIsImlkIjoiNmEwYzE1OWU3NzNlNDU4MTM2YWJkNjRhIiwiaWF0IjoxNzc5MjEyNDQxfQ.SJsHDiii92yEUOid9QkGoykOyUxxUrNDWfis0tljtSo
 
 {
-    "title": "hei blog",
+    "title": "morjess hellurei",
     "author": "nynny",
     "url": "nynnypage.com",
     "likes": 10
