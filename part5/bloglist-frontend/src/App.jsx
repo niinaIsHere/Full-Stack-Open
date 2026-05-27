@@ -9,7 +9,7 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const App = () => {
 
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -67,7 +67,7 @@ const App = () => {
 
   const handleLike = async (blog) => {
     const updateId = blog.id
-    
+
     const newLikes = blog.likes + 1
     const updatedBlog = {
       user: blog.user.id,
@@ -78,7 +78,7 @@ const App = () => {
     }
 
     const returnedBlog = await blogService.update(updateId, updatedBlog)
- 
+
     const updatedBlogs = blogs.map(b => b.id !== updateId ? b : returnedBlog)
 
     setBlogs(updatedBlogs)
@@ -123,9 +123,9 @@ const App = () => {
       )}
 
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-      <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />)}
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />)}
     </div>
   )
-  }
+}
 
 export default App

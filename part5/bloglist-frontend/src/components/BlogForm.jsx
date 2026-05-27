@@ -5,14 +5,14 @@ const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  
+
 
   const addBlog = event => {
     event.preventDefault()
     createBlog({
-        title: title,
-        author: author,
-        url: url,
+      title: title,
+      author: author,
+      url: url,
     })
 
     setTitle('')
@@ -31,7 +31,7 @@ const BlogForm = ({ createBlog }) => {
             type="text"
             value={title}
             onChange={({ target }) => setTitle(target.value)}
-            />
+          />
         </label><br/>
         <label>
           author

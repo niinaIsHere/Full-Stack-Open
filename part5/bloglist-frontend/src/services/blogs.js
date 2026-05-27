@@ -33,7 +33,7 @@ const remove = async (blogId) => {
   }
   if (confirm('Are you sure you want to delete the blog?')) {
     await axios.delete(`${baseUrl}/${blogId}`, config)
-}
+  }
 }
 
 export default { getAll, create, setToken, update, remove }
