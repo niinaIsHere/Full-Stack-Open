@@ -6,6 +6,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import axios from 'axios'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -36,12 +37,14 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
+      const users = await axios.get('/api/users')
+      const fullUser = users.data.find(u => u.username === user.username)
 
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
-      setUser(user)
+      setUser(fullUser)
       setUsername('')
       setPassword('')
     } catch {
@@ -96,15 +99,13 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <Togglable buttonLabel="login">
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
-    </Togglable>
+    <LoginForm
+      username={username}
+      password={password}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleSubmit={handleLogin}
+    />
   )
 
   return (
@@ -123,7 +124,7 @@ const App = () => {
       )}
 
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />)}
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove} loggedInUser={user} />)}
     </div>
   )
 }
