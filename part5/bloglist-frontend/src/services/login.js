@@ -8,7 +8,7 @@ const login = async credentials => {
 }
 
 const logout = () => {
-  window.localStorage.removeItem('loggedNoteappUser')
+  window.localStorage.removeItem('loggedBlogappUser')
 }
 
 export default { login, logout }
