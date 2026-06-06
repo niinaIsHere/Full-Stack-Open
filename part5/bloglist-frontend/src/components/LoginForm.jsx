@@ -14,7 +14,6 @@ const LoginForm = ({
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-          username
             <TextField
               label='username'
               value={username}
@@ -24,7 +23,6 @@ const LoginForm = ({
         </div>
         <div>
           <label>
-          password
             <TextField
               label='password'
               type="password"
@@ -33,7 +31,7 @@ const LoginForm = ({
             />
           </label>
         </div>
-        <Button type="submit" variant='contained' style={{ marginTop: 10 }}>login</Button>
+        <Button type="submit" variant='contained' style={{ marginTop: 10, color: 'darkcyan' }}>login</Button>
       </form>
     </div>
   )

@@ -31,7 +31,6 @@ const BlogForm = ({ createBlog }) => {
 
       <form onSubmit={addBlog}>
         <label>
-          title
           <TextField
             label='title'
             type="text"
@@ -40,7 +39,6 @@ const BlogForm = ({ createBlog }) => {
           />
         </label><br/>
         <label>
-          author
           <TextField
             label='author'
             type="text"
@@ -49,7 +47,6 @@ const BlogForm = ({ createBlog }) => {
           />
         </label><br/>
         <label>
-          url
           <TextField
             label='url'
             type="text"

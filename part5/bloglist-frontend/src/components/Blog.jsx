@@ -15,12 +15,11 @@ const Blog = ({ blog, handleLike, handleRemove, loggedInUser }) => {
     <div className="blog">
       <h2>{blog.author}: {blog.title}</h2>
       <p>{blog.url}</p>
-      <p>likes {blog.likes}
-        {loggedInUser && <button onClick={() => handleLike(blog)}>like</button>}
-      </p>
       <p>Added by {blog.user.username}</p>
+      <p>likes {blog.likes}</p>
+      {loggedInUser && <button style={{ color: 'green' }} onClick={() => handleLike(blog)}>like</button>}
       {isCreator &&
-        <button onClick={() => handleRemove(blog)}>Remove</button>
+        <button style={{ color: 'red' }} onClick={() => handleRemove(blog)}>Remove</button>
       }
     </div>
   )}
