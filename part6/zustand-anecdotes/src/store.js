@@ -47,6 +47,7 @@ const useAnecdoteStore = create((set, get) => ({
   },
 }))
 
+export default useAnecdoteStore
 
 export const useAnecdotes = () => {
   const anecdotes = useAnecdoteStore((state) => state.anecdotes)
