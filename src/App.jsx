@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { useAnecdotes } from './hooks/useAnecdotes'
