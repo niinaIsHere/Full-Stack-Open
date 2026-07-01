@@ -1,0 +1,12 @@
+{
+  "anecdotes": [
+    {
+      "content": "kjhkj",
+      "author": "kjhkjh",
+      "info": "kjk",
+      "votes": 0,
+      "id": "soIiOgJZHAU"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
