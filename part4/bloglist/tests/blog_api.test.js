@@ -4,6 +4,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const assert = require('node:assert')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const api = supertest(app)
 
@@ -30,6 +31,14 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
+const initialUsers = [
+  {
+    username: 'firstuser',
+    name: 'firstname',
+    password: 'firstsecret'
+  }
+]
+
 
 test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs').expect('Content-Type', /application\/json/)
@@ -44,7 +53,19 @@ test('returned blogs include an id', async () => {
 })
 
 test('posting a blog increases blog amount by one', async () => {
-  const amount = initialBlogs.length
+  await User.deleteMany({})
+
+  let userObject = new User(initialUsers[0])
+  await userObject.save()
+
+  const username = userObject.username
+  const password = initialUsers[0].password
+
+  const login = await api.post('/api/login').send({ username, password })
+  const token = login.body.token
+
+  const initialBlogs = await api.get('/api/blogs')
+  const initialAmount = initialBlogs.body.length
 
   const blog = {
     title: 'new blog',
@@ -53,10 +74,10 @@ test('posting a blog increases blog amount by one', async () => {
     likes: 10
   }
 
-  const postedBlog = await api.post('/api/blogs').send(blog)
+  const postedBlog = await api.post('/api/blogs').set('Authorization', `Bearer ${token}`).send(blog)
   const allBlogs = await api.get('/api/blogs')
 
-  assert(allBlogs.body.length === amount + 1)
+  assert(allBlogs.body.length === initialAmount + 1)
 })
 
 test('missing likes property defaults to 0', async () => {
@@ -80,7 +101,7 @@ test('missing title property receives status error 400', async () => {
 
   const postedBlog = await api.post('/api/blogs').send(blog)
 
-  assert(postedBlog.status == 400)
+  assert(postedBlog.status === 400)
 })
 
 test('missing url property receives status error 400', async () => {
@@ -92,10 +113,21 @@ test('missing url property receives status error 400', async () => {
 
   const postedBlog = await api.post('/api/blogs').send(blog)
 
-  assert(postedBlog.status == 400)
+  assert(postedBlog.status === 400)
 })
 
 test('deleting an existing blog removes it from db', async () => {
+
+  await User.deleteMany({})
+  let userObject = new User(initialUsers[0])
+  await userObject.save()
+
+  const username = userObject.username
+  const password = initialUsers[0].password
+
+  const login = await api.post('/api/login').send({ username, password })
+  const token = login.body.token
+
   const allBlogs = await api.get('/api/blogs')
   const idToRemove = allBlogs.body[0].id
 
@@ -169,7 +201,7 @@ test('updating non-existing blog returns 404', async () => {
   }
   const response = await api.put(`/api/blogs/${idToUpdate}`).send(newContents).expect(404)
 
-  assert(response.status == 404)
+  assert(response.status === 404)
 })
 
 after(async () => {
