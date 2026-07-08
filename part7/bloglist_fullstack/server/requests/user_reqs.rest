@@ -1,0 +1,40 @@
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "moioioi",
+    "name": "niina",
+    "password": "salainen"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "moioioi",
+  "password": "salainen"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "minäuser",
+    "name": "minä",
+    "password": "topsecret"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "niina2",
+  "name": "Niina",
+  "password": "secret"
+}

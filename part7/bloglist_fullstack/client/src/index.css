@@ -1,0 +1,27 @@
+.blog {
+    color: rgb(28, 22, 66);
+    padding-top: 5px;
+    font-size: 15px;
+    border-radius: 4px;
+    border: 2px solid rgba(0,0,0,0.15);
+    padding: 10px;
+    box-shadow: 0 2px 4px grey;
+}
+
+.blog h2 {
+    color: rgb(64, 54, 91);
+}
+
+button {
+  margin: 10px;
+  padding: 10px 10px;
+  border-radius: 4px;
+  border: 2px solid rgba(0,0,0,0.15);
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);   
+}
