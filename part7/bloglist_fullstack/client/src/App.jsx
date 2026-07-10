@@ -12,6 +12,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import ErrorBoundary from './ErrorBoundary'
 import axios from 'axios'
 import { AppBar, Button, Container, Toolbar } from '@mui/material'
 
@@ -158,17 +159,23 @@ const App = () => {
       <Notification message={notification} />
       <Routes>
         <Route path="/blogs/:id" element={
-          <Blog blog={blog} handleLike={handleLike} handleRemove={handleRemove} loggedInUser={user} />
+          <ErrorBoundary>
+            <Blog blog={blog} handleLike={handleLike} handleRemove={handleRemove} loggedInUser={user} />
+          </ErrorBoundary>
         } />
         <Route path="/" element={
-          <BlogList blogs={blogs}/>
+          <ErrorBoundary>
+            <BlogList blogs={blogs}/>
+          </ErrorBoundary>
         } />
         <Route path="/login" element={
-          <LoginForm username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}/>
+          <ErrorBoundary>
+            <LoginForm username={username}
+              password={password}
+              handleUsernameChange={({ target }) => setUsername(target.value)}
+              handlePasswordChange={({ target }) => setPassword(target.value)}
+              handleSubmit={handleLogin}/>
+          </ErrorBoundary>
         } />
         <Route path="/create" element={user && (<BlogForm creator={user.id} createBlog={addBlog} />)} />
       </Routes>

@@ -1,7 +1,6 @@
 import Togglable from './Togglable'
 
 const Blog = ({ blog, handleLike, handleRemove, loggedInUser }) => {
-
   if(!blog) {
     return null
   }
