@@ -1,8 +1,9 @@
 import Togglable from './Togglable'
+import NotFound from './NotFound'
 
 const Blog = ({ blog, handleLike, handleRemove, loggedInUser }) => {
   if(!blog) {
-    return null
+    return <NotFound />
   }
 
   var isCreator = false

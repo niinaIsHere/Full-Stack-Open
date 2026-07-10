@@ -5,7 +5,6 @@ import {
   Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
 import BlogList from './components/BlogList'
-import Home from './components/Home'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -15,6 +14,7 @@ import BlogForm from './components/BlogForm'
 import ErrorBoundary from './ErrorBoundary'
 import axios from 'axios'
 import { AppBar, Button, Container, Toolbar } from '@mui/material'
+import NotFound from './components/NotFound'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -163,7 +163,7 @@ const App = () => {
             <Blog blog={blog} handleLike={handleLike} handleRemove={handleRemove} loggedInUser={user} />
           </ErrorBoundary>
         } />
-        <Route path="/" element={
+        <Route path="/blogs" element={
           <ErrorBoundary>
             <BlogList blogs={blogs}/>
           </ErrorBoundary>
@@ -178,6 +178,7 @@ const App = () => {
           </ErrorBoundary>
         } />
         <Route path="/create" element={user && (<BlogForm creator={user.id} createBlog={addBlog} />)} />
+        <Route path="*" element={<NotFound />}/>
       </Routes>
     </Container>
   )
