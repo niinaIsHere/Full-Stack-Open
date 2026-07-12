@@ -32,6 +32,8 @@ const App = () => {
 
   const actions = useBlogActions();
   const initialize = useBlogStore((state) => state.actions.initialize);
+  const like = useBlogStore((state) => state.actions.like);
+  const remove = useBlogStore((state) => state.actions.remove);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => initialize(blogs));
@@ -81,34 +83,11 @@ const App = () => {
   };
 
   const handleLike = async (blog) => {
-    const updateId = blog.id;
-
-    const newLikes = blog.likes + 1;
-    const updatedBlog = {
-      ...blog,
-      user: blog.user.id,
-      likes: newLikes,
-    };
-
-    const returnedBlog = await blogService.update(updateId, updatedBlog);
-    console.log(returnedBlog);
-
-    const updatedBlogs = blogs.map((b) =>
-      b.id !== updateId ? b : returnedBlog,
-    );
-
-    setBlogs(updatedBlogs);
-
-    return returnedBlog;
+    like(blog.id);
   };
 
   const handleRemove = async (blog) => {
-    const removeId = blog.id;
-
-    await blogService.remove(removeId);
-    const updatedBlogs = blogs.filter((b) => b.id !== removeId);
-
-    setBlogs(updatedBlogs);
+    remove(blog.id);
     navigate("/blogs");
   };
 
