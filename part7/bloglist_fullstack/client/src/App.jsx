@@ -20,9 +20,9 @@ import axios from "axios";
 import { AppBar, Button, Container, Toolbar } from "@mui/material";
 import NotFound from "./components/NotFound";
 import { useBlogActions } from "./store";
+import useBlogStore from "./store";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -30,10 +30,11 @@ const App = () => {
   const navigate = useNavigate();
 
   const actions = useBlogActions();
+  const initialize = useBlogStore((state) => state.actions.initialize);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    blogService.getAll().then((blogs) => initialize(blogs));
+  }, [initialize]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -177,7 +178,7 @@ const App = () => {
           path="/blogs"
           element={
             <ErrorBoundary>
-              <BlogList blogs={blogs} />
+              <BlogList />
             </ErrorBoundary>
           }
         />

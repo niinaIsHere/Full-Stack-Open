@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useBlogs } from "../store";
 
 import Blog from "./Blog";
 import Notification from "./Notification";
@@ -9,7 +10,9 @@ import Togglable from "./Togglable";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 
-const BlogList = ({ blogs }) => {
+const BlogList = () => {
+  const blogs = useBlogs();
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
