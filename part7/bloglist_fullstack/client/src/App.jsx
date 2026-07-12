@@ -19,15 +19,17 @@ import ErrorBoundary from "./ErrorBoundary";
 import axios from "axios";
 import { AppBar, Button, Container, Toolbar } from "@mui/material";
 import NotFound from "./components/NotFound";
+import { useBlogActions } from "./store";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
 
   const navigate = useNavigate();
+
+  const actions = useBlogActions();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -64,12 +66,9 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      navigate("/");
+      navigate("/blogs");
     } catch {
-      setNotification({ text: "wrong credentials", type: "error" });
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      actions.setNotification({ text: "wrong credentials", type: "error" });
     }
   };
 
@@ -82,13 +81,8 @@ const App = () => {
   const addBlog = (blogObject) => {
     blogService.create(blogObject).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
-      setNotification({
-        text: `Blog '${returnedBlog.title}' added!`,
-        type: "success",
-      });
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+
+      actions.setNotification({ type: "success", text: "new blog added" });
     });
   };
 
@@ -121,7 +115,7 @@ const App = () => {
     const updatedBlogs = blogs.filter((b) => b.id !== removeId);
 
     setBlogs(updatedBlogs);
-    navigate("/");
+    navigate("/blogs");
   };
 
   const loginForm = () => (
@@ -164,7 +158,7 @@ const App = () => {
         </Toolbar>
       </AppBar>
 
-      <Notification message={notification} />
+      <Notification />
       <Routes>
         <Route
           path="/blogs/:id"

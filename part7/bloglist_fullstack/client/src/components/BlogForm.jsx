@@ -19,7 +19,7 @@ const BlogForm = ({ creator, createBlog }) => {
       user: creator,
     });
 
-    navigate("/");
+    navigate("/blogs");
 
     setTitle("");
     setAuthor("");
