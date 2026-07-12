@@ -7,6 +7,11 @@ const useBlogStore = create((set, get) => ({
   blogs: [],
   notification: null,
   actions: {
+    add: async (blog) => {
+      const createdBlog = await blogService.create(blog);
+      set((state) => ({ blogs: state.blogs.concat(createdBlog) }));
+      get().actions.setNotification({ type: "success", text: "added blog" });
+    },
     setNotification: (obj) => {
       set(() => ({ notification: obj }));
       setTimeout(() => {

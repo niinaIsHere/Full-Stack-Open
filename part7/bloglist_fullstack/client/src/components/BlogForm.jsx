@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
+import { useBlogActions } from "../store";
 
-const BlogForm = ({ creator, createBlog }) => {
+const BlogForm = ({ creator }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
 
-  console.log(window.localStorage.getItem("loggedBlogappUser"));
+  const { add } = useBlogActions();
 
   const addBlog = (event) => {
     event.preventDefault();
-    createBlog({
+    const blog = {
       title: title,
       author: author,
       url: url,
       user: creator,
-    });
+    };
+
+    add(blog);
 
     navigate("/blogs");
 

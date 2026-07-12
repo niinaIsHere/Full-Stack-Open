@@ -19,13 +19,14 @@ import ErrorBoundary from "./ErrorBoundary";
 import axios from "axios";
 import { AppBar, Button, Container, Toolbar } from "@mui/material";
 import NotFound from "./components/NotFound";
-import { useBlogActions } from "./store";
+import { useBlogActions, useBlogs } from "./store";
 import useBlogStore from "./store";
 
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const blogs = useBlogs();
 
   const navigate = useNavigate();
 
@@ -77,14 +78,6 @@ const App = () => {
     window.localStorage.removeItem("loggedBlogappUser");
     blogService.setToken(null);
     setUser(null);
-  };
-
-  const addBlog = (blogObject) => {
-    blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
-
-      actions.setNotification({ type: "success", text: "new blog added" });
-    });
   };
 
   const handleLike = async (blog) => {
@@ -198,7 +191,7 @@ const App = () => {
         />
         <Route
           path="/create"
-          element={user && <BlogForm creator={user.id} createBlog={addBlog} />}
+          element={user && <BlogForm creator={user.id} />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
