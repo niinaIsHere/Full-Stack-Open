@@ -21,6 +21,7 @@ import { AppBar, Button, Container, Toolbar } from "@mui/material";
 import NotFound from "./components/NotFound";
 import { useBlogActions, useBlogs } from "./store";
 import useBlogStore from "./store";
+import persistentUser from "./services/persistentUser";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -42,14 +43,13 @@ const App = () => {
   }, [initialize]);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
+    const user = persistentUser.getUser();
+    if (user) {
       blogService.setToken(user.token);
     }
   }, []);
 
-  const handleLogin = async (event) => {
+  const handleLogin = async (event, { username, password }) => {
     event.preventDefault();
 
     try {
@@ -63,14 +63,9 @@ const App = () => {
         token: loginResponse.token,
       };
 
-      window.localStorage.setItem(
-        "loggedBlogappUser",
-        JSON.stringify(fullUser),
-      );
+      persistentUser.saveUser(fullUser);
       blogService.setToken(loginResponse.token);
-      setUser(user);
-      setUsername("");
-      setPassword("");
+      setUser(fullUser);
       navigate("/blogs");
     } catch {
       actions.setNotification({ text: "wrong credentials", type: "error" });
@@ -78,7 +73,7 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    window.localStorage.removeItem("loggedBlogappUser");
+    persistentUser.removeUser();
     blogService.setToken(null);
     resetUser();
   };
@@ -92,15 +87,7 @@ const App = () => {
     navigate("/blogs");
   };
 
-  const loginForm = () => (
-    <LoginForm
-      username={username}
-      password={password}
-      handleUsernameChange={({ target }) => setUsername(target.value)}
-      handlePasswordChange={({ target }) => setPassword(target.value)}
-      handleSubmit={handleLogin}
-    />
-  );
+  const loginForm = () => <LoginForm handleSubmit={handleLogin} />;
 
   const padding = {
     padding: 5,
@@ -159,13 +146,7 @@ const App = () => {
           path="/login"
           element={
             <ErrorBoundary>
-              <LoginForm
-                username={username}
-                password={password}
-                handleUsernameChange={({ target }) => setUsername(target.value)}
-                handlePasswordChange={({ target }) => setPassword(target.value)}
-                handleSubmit={handleLogin}
-              />
+              <LoginForm handleLogin={handleLogin} />
             </ErrorBoundary>
           }
         />

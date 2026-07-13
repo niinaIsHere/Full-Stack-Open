@@ -1,40 +1,41 @@
-import { TextField, Button } from '@mui/material'
+import { TextField, Button } from "@mui/material";
+import { useField } from "../hooks";
 
-const LoginForm = ({
-  handleSubmit,
-  handleUsernameChange,
-  handlePasswordChange,
-  username,
-  password,
-}) => {
+const LoginForm = ({ handleLogin }) => {
+  const username = useField("text");
+  const password = useField("password");
 
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(event) => {
+          handleLogin(event, {
+            username: username.value,
+            password: password.value,
+          });
+        }}
+      >
         <div>
           <label>
-            <TextField
-              label='username'
-              value={username}
-              onChange={handleUsernameChange}
-            />
+            <TextField {...username} />
           </label>
         </div>
         <div>
           <label>
-            <TextField
-              label='password'
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
+            <TextField {...password} />
           </label>
         </div>
-        <Button type="submit" variant='contained' style={{ marginTop: 10, color: 'darkcyan' }}>login</Button>
+        <Button
+          type="submit"
+          variant="contained"
+          style={{ marginTop: 10, color: "darkcyan" }}
+        >
+          login
+        </Button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

@@ -31,10 +31,15 @@ const useBlogStore = create((set, get) => ({
       const blogToRemove = get().blogs.find((a) => a.id === id);
       const removed = await blogService.remove(id);
 
-      set((state) => ({
-        blogs: state.blogs.filter((blog) => blog.id !== id),
-      }));
-      get().actions.setNotification({ type: "success", text: "Removed blog" });
+      if (removed !== null) {
+        set((state) => ({
+          blogs: state.blogs.filter((blog) => blog.id !== id),
+        }));
+        get().actions.setNotification({
+          type: "success",
+          text: "Removed blog",
+        });
+      }
     },
 
     setNotification: (obj) => {
