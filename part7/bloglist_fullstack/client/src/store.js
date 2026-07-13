@@ -5,6 +5,7 @@ const getId = () => (100000 * Math.random()).toFixed(0);
 
 const useBlogStore = create((set, get) => ({
   blogs: [],
+  user: null,
   notification: null,
   actions: {
     add: async (blog) => {
@@ -42,7 +43,16 @@ const useBlogStore = create((set, get) => ({
         set(() => ({ notification: null }));
       }, 5000);
     },
+
     initialize: (blogs) => set(() => ({ blogs })),
+
+    setUser: (obj) => {
+      set(() => ({ user: obj }));
+    },
+
+    resetUser: () => {
+      set(() => ({ user: null }));
+    },
   },
 }));
 

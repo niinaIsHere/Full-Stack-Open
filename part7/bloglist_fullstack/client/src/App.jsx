@@ -25,8 +25,8 @@ import useBlogStore from "./store";
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
   const blogs = useBlogs();
+  const user = useBlogStore((state) => state.user);
 
   const navigate = useNavigate();
 
@@ -34,6 +34,8 @@ const App = () => {
   const initialize = useBlogStore((state) => state.actions.initialize);
   const like = useBlogStore((state) => state.actions.like);
   const remove = useBlogStore((state) => state.actions.remove);
+  const setUser = useBlogStore((state) => state.actions.setUser);
+  const resetUser = useBlogStore((state) => state.actions.resetUser);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => initialize(blogs));
@@ -43,7 +45,6 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
       blogService.setToken(user.token);
     }
   }, []);
@@ -79,7 +80,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogappUser");
     blogService.setToken(null);
-    setUser(null);
+    resetUser();
   };
 
   const handleLike = async (blog) => {
