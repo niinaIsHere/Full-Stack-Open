@@ -9,6 +9,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 import BlogList from "./components/BlogList";
+import UserList from "./components/UserList";
+import User from "./components/User";
 import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -26,6 +28,7 @@ import persistentUser from "./services/persistentUser";
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [users, setUsers] = useState([]);
   const blogs = useBlogs();
   const user = useBlogStore((state) => state.user);
 
@@ -55,6 +58,7 @@ const App = () => {
     try {
       const loginResponse = await loginService.login({ username, password });
       const users = await axios.get("/api/users");
+      setUsers(users);
       const user = users.data.find(
         (u) => u.username === loginResponse.username,
       );
@@ -94,7 +98,13 @@ const App = () => {
   };
 
   const match = useMatch("/blogs/:id");
+  const userMatch = useMatch("/users/:id");
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;
+  const displayUser = userMatch
+    ? users.data.find((user) => user.id === userMatch.params.id)
+    : null;
+
+  console.log(displayUser);
 
   const style = { "&:hover": { bgcolor: "rgba(255,255,255,0.3)" } };
 
@@ -113,6 +123,11 @@ const App = () => {
           {!user && (
             <Button color="inherit" component={Link} to="/login" sx={style}>
               login
+            </Button>
+          )}
+          {user && (
+            <Button color="inherit" component={Link} to="/users" sx={style}>
+              users
             </Button>
           )}
           {user && <button onClick={handleLogout}>logout</button>}
@@ -139,6 +154,22 @@ const App = () => {
           element={
             <ErrorBoundary>
               <BlogList />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ErrorBoundary>
+              <UserList users={users.data} />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/users/:id"
+          element={
+            <ErrorBoundary>
+              <User user={displayUser} />
             </ErrorBoundary>
           }
         />
