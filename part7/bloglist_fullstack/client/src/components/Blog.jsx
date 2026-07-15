@@ -1,10 +1,20 @@
 import Togglable from "./Togglable";
 import NotFound from "./NotFound";
+import CommentForm from "./CommentForm";
 
-const Blog = ({ blog, handleLike, handleRemove, loggedInUser }) => {
+const Blog = ({
+  blog,
+  handleLike,
+  handleRemove,
+  handleComment,
+  loggedInUser,
+}) => {
   if (!blog) {
     return <NotFound />;
   }
+
+  console.log(blog.comments);
+  console.log(blog.id);
 
   var isCreator = false;
 
@@ -33,6 +43,13 @@ const Blog = ({ blog, handleLike, handleRemove, loggedInUser }) => {
           Remove
         </button>
       )}
+      <h2>Comments</h2>
+      <ul>
+        {blog.comments.map((comment) => (
+          <li key={comment._id}>{comment.content}</li>
+        ))}
+      </ul>
+      <CommentForm blog_id={blog.id} />
     </div>
   );
 };

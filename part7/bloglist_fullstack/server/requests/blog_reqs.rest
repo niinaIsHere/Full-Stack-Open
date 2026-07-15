@@ -26,3 +26,12 @@ Content-Type: application/json
     "url": "moipage.com",
     "likes": 10
 }
+
+
+###
+PUT http://localhost:3003/api/blogs/6a53f669ba680de2a572bec1
+Content-Type: application/json
+
+{
+    "comments": {"content": "this is good man"}
+}

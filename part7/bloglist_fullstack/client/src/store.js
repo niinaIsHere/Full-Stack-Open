@@ -27,6 +27,18 @@ const useBlogStore = create((set, get) => ({
       get().actions.setNotification({ type: "success", text: "Liked blog" });
     },
 
+    comment: async (id, comment) => {
+      const blog = get().blogs.find((a) => a.id === id);
+      const commented = await blogService.update(id, {
+        ...blog,
+        comments: blog.comments.concat({ content: comment.content }),
+      });
+
+      set((state) => ({
+        blogs: state.blogs.map((blog) => (blog.id === id ? commented : blog)),
+      }));
+    },
+
     remove: async (id) => {
       const blogToRemove = get().blogs.find((a) => a.id === id);
       const removed = await blogService.remove(id);
